@@ -1,0 +1,18 @@
+---
+const today = new Date();
+---
+
+<footer>
+	&copy; {today.getFullYear()} 古屋 匠. All rights reserved.
+</footer>
+<style>
+	footer {
+		padding: 2em 1em 4em 1em;
+		background: color-mix(in srgb, var(--gray-light) 90%, transparent);
+		backdrop-filter: blur(8px);
+		border-top: 1px solid color-mix(in srgb, var(--gray) 30%, transparent);
+		color: var(--gray);
+		text-align: center;
+		font-size: 0.875rem;
+	}
+</style>
