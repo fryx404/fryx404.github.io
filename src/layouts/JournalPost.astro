@@ -1,0 +1,92 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import "../styles/post.css";
+import BaseHead from "../components/BaseHead.astro";
+import Footer from "../components/Footer.astro";
+import FormattedDate from "../components/FormattedDate.astro";
+import Header from "../components/Header.astro";
+
+type Props = CollectionEntry<"journal">["data"];
+
+const { title, description, pubDate, updatedDate, image, tags } = Astro.props;
+---
+
+<html lang="ja">
+	<head>
+		<BaseHead title={`${title} — JOURNAL`} description={description || title} />
+	</head>
+
+	<body>
+		<Header />
+		<main>
+			<article>
+				{
+					image && (
+						<div class="hero-image">
+							<Image src={image} alt={title} width={1020} height={510} />
+						</div>
+					)
+				}
+				<div class="prose">
+					<div class="header-block">
+						<h1 class="section-title-tag" style="--tag-bg: #20c997;">
+							{title}
+						</h1>
+						<p class="meta">
+							<FormattedDate date={pubDate} />
+						</p>
+						{
+							updatedDate && (
+								<p class="last-updated-on">
+									Last updated on <FormattedDate date={updatedDate} />
+								</p>
+							)
+						}
+						{
+							tags && tags.length > 0 && (
+								<ul class="feature-tags">
+									{tags.map((tag: string) => (
+										<li class="feature-tag">{tag}</li>
+									))}
+								</ul>
+							)
+						}
+					</div>
+					<hr />
+					<slot />
+				</div>
+			</article>
+			<div class="back-link-wrapper">
+				<a class="back-link" href="/journal">
+					<svg
+						width="20"
+						height="20"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2.5"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						style="margin-right: 0.5rem;"
+						><line x1="19" y1="12" x2="5" y2="12"></line><polyline
+							points="12 19 5 12 12 5"></polyline></svg
+					>
+					JOURNAL 一覧に戻る
+				</a>
+			</div>
+		</main>
+		<Footer />
+		<script>
+			import { applyRandomTagColors } from "../utils/tagColors";
+
+			if (document.readyState === "loading") {
+				document.addEventListener("DOMContentLoaded", () =>
+					applyRandomTagColors(".feature-tag"),
+				);
+			} else {
+				applyRandomTagColors(".feature-tag");
+			}
+		</script>
+	</body>
+</html>

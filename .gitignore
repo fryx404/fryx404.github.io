@@ -30,5 +30,5 @@ Desktop.ini
 .idea/
 
 # ブログのテンプレート
-src/content/blog/_temp/
-src/content/blog/.obsidian/
+src/content/_temp/
+src/content/.obsidian/
