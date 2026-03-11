@@ -13,13 +13,13 @@ const works = defineCollection({
 });
 
 const blog = defineCollection({
-	schema: z.object({
+	schema: ({ image }) => z.object({
 		title: z.string(),
 		pubDate: z.coerce.date(),
 		updatedDate: z.coerce.date().optional(),
 		tags: z.array(z.string()).optional(),
 		description: z.string().optional(),
-		heroImage: z.string().optional(),
+		image: image().optional(),
 	}),
 });
 

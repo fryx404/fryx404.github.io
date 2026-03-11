@@ -1,7 +1,7 @@
 ---
-title: "ツールを作成しました"
+title: "【MAYA】ツールを作成しました"
 publishDate: 2025-08-13
-description: "ツールを作成しました"
+description: "【MAYA】ツールを作成しました"
 tags: ["Script", "Maya", "Python"]
 image: "./images/sample.png"
 ---

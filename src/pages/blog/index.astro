@@ -222,10 +222,10 @@ const cardColors = [
 										)}
 									<a href={`/blog/${idToSlug(post.id)}/`}>
 										<div class="card-image-wrapper">
-											{post.data.heroImage ? (
+											{post.data.image ? (
 												<img
 													class="card-image"
-													src={post.data.heroImage}
+													src={post.data.image.src}
 													alt={post.data.title}
 												/>
 											) : (
