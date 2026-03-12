@@ -1,6 +1,6 @@
 ---
 title: "ストックフォトを公開しました"
-publishDate: 2022-01-01
+pubDate: 2022-01-01
 description: "ストックフォトを公開しました"
 tags: ["写真", "ストックフォト"]
 image: "./images/AsobeStock.webp"

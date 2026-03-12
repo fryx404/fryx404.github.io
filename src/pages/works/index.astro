@@ -8,7 +8,7 @@ import Header from "../../components/Header.astro";
 import { idToSlug } from "../../utils/slug";
 
 const works = (await getCollection("works")).sort(
-    (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 
 // カードに割り当てるテーマカラー
@@ -193,6 +193,41 @@ const cardColors = [
                 text-align: center;
                 padding: 4rem 0;
             }
+            .post-hidden {
+                display: none;
+            }
+            .load-more-wrapper {
+                text-align: center;
+                margin-top: 3rem;
+            }
+            #load-more-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.8rem 2rem;
+                font-size: 1rem;
+                font-weight: 700;
+                border-radius: 999px;
+                border: none;
+                cursor: pointer;
+                background: #ffffff;
+                color: var(--gray-dark);
+                box-shadow:
+                    0 4px 6px -1px rgb(0 0 0 / 0.1),
+                    0 2px 4px -2px rgb(0 0 0 / 0.1),
+                    inset 0 2px 0 rgba(255, 255, 255, 0.7);
+                transition:
+                    transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+                    box-shadow 0.2s ease;
+                transform: rotate(-1deg);
+            }
+            #load-more-btn:hover {
+                transform: translateY(-3px) rotate(0deg) scale(1.04);
+                box-shadow:
+                    0 10px 15px -3px rgb(0 0 0 / 0.12),
+                    0 4px 6px -4px rgb(0 0 0 / 0.1),
+                    inset 0 2px 0 rgba(255, 255, 255, 0.8);
+            }
         </style>
     </head>
     <body>
@@ -211,13 +246,14 @@ const cardColors = [
                 works.length === 0 ? (
                     <p class="empty">まだ作品がありません。</p>
                 ) : (
+                    <>
                     <ul class="works-grid">
                         {works.map((work, index) => {
                             const themeColor =
                                 cardColors[index % cardColors.length];
                             return (
                                 <li
-                                    class="works-card"
+                                    class={`works-card${index >= 15 ? " post-hidden" : ""}`}
                                     style={`--theme-color: ${themeColor}; background-color: color-mix(in srgb, ${themeColor} 6%, #ffffff);`}
                                 >
                                     <a href={`/works/${idToSlug(work.id)}/`}>
@@ -269,7 +305,7 @@ const cardColors = [
                                             </h2>
                                             <p class="card-date">
                                                 <FormattedDate
-                                                    date={work.data.publishDate}
+                                                    date={work.data.pubDate}
                                                 />
                                             </p>
                                         </div>
@@ -278,6 +314,14 @@ const cardColors = [
                             );
                         })}
                     </ul>
+                    {works.length > 15 && (
+                        <div class="load-more-wrapper">
+                            <button id="load-more-btn">
+                                もっと見る ({works.length - 15}件)
+                            </button>
+                        </div>
+                    )}
+                    </>
                 )
             }
         </main>
@@ -301,6 +345,21 @@ const cardColors = [
                     applyRandomTagColors(".works-tag-item", available);
                 });
             });
+
+            const btn = document.getElementById("load-more-btn");
+            if (btn) {
+                btn.addEventListener("click", () => {
+                    const hidden = document.querySelectorAll(".post-hidden");
+                    const next15 = Array.from(hidden).slice(0, 15);
+                    next15.forEach((el) => el.classList.remove("post-hidden"));
+                    const remaining = document.querySelectorAll(".post-hidden").length;
+                    if (remaining === 0) {
+                        btn.closest(".load-more-wrapper")?.remove();
+                    } else {
+                        btn.textContent = `もっと見る (${remaining}件)`;
+                    }
+                });
+            }
         </script>
     </body>
 </html>

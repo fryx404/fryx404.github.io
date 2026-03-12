@@ -1,6 +1,6 @@
 ---
 title: "ポートフォリオサイトを作成しました"
-publishDate: 2025-06-28
+pubDate: 2025-06-28
 description: "ポートフォリオサイトを作成しました"
 tags: ["Web", "html css", "javascript"]
 image: "./images/image.webp"

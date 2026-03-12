@@ -1,6 +1,6 @@
 ---
 title: "写真展に参画しました"
-publishDate: 2018-06-01
+pubDate: 2018-06-01
 description: "写真展に参画しました"
 tags: ["写真", "展示"]
 image: "./images/11dpi.webp"

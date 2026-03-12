@@ -63,7 +63,7 @@ src/content/works/
 ```markdown
 ---
 title: "作品タイトル"
-publishDate: YYYY-MM-DD
+pubDate: YYYY-MM-DD
 description: "作品の説明文"
 tags: ["Tag1", "Tag2"]        # 任意
 image: "./images/thumbnail.png" # 任意：サムネイル画像（相対パス）
@@ -78,7 +78,7 @@ url: "https://github.com/..."   # 任意：外部リンク
 | フィールド    | 型       | 必須 | 説明                           |
 | :------------ | :------- | :--: | :----------------------------- |
 | `title`       | string   |  ✅  | 作品タイトル                   |
-| `publishDate` | date     |  ✅  | 公開日 (`YYYY-MM-DD` 形式)     |
+| `pubDate`     | date     |  ✅  | 公開日 (`YYYY-MM-DD` 形式)     |
 | `description` | string   |  —   | 説明文（OGP にも使用）         |
 | `tags`        | string[] |  —   | タグの配列                     |
 | `image`       | image    |  —   | サムネイル（相対パス指定）     |

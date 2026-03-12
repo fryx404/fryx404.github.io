@@ -1,6 +1,6 @@
 ---
 title: "Blender Art Works"
-publishDate: 2025-03-31
+pubDate: 2025-03-31
 description: "Independent works - March 2025"
 tags: ["3DCG", "Blender", "After Effects", "Photoshop"]
 image: "./images/2503_CG.png"

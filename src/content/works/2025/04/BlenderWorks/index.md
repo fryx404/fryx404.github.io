@@ -1,6 +1,6 @@
 ---
 title: "Blender Art Works"
-publishDate: 2025-04-30
+pubDate: 2025-04-30
 description: "Blender Art Works"
 tags: ["3DCG", "Blender", "After Effects", "Photoshop"]
 image: "./images/blenderworks.webp"

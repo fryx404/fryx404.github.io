@@ -1,6 +1,6 @@
 ---
 title: "CG Art Works"
-publishDate: 2024-12-31
+pubDate: 2024-12-31
 description: "CG Art Works"
 tags: ["3DCG", "Blender","Maya","Cinema4D","After Effects", "Photoshop"]
 image: "./images/blenderworks.webp"

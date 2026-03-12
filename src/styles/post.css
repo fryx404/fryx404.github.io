@@ -140,3 +140,61 @@ hr {
 		inset 0 2px 0 rgba(255, 255, 255, 0.8);
 	color: var(--black);
 }
+
+/* ---- 前後ナビゲーション ---- */
+.post-nav {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 1rem;
+	width: 720px;
+	max-width: calc(100% - 2em);
+	margin: 3rem auto 0;
+}
+
+.post-nav-placeholder {
+	/* 片側が空の場合のスペーサー */
+}
+
+.post-nav-link {
+	display: flex;
+	flex-direction: column;
+	gap: 0.3rem;
+	padding: 0.9rem 1.1rem;
+	border-radius: 12px;
+	background: #ffffff;
+	border: 1px solid rgba(0, 0, 0, 0.08);
+	box-shadow:
+		0 2px 8px rgb(0 0 0 / 0.06),
+		inset 0 1px 0 rgba(255, 255, 255, 0.9);
+	text-decoration: none;
+	color: var(--gray-dark);
+	transition:
+		transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+		box-shadow 0.2s ease;
+}
+
+.post-nav-link:hover {
+	transform: translateY(-3px);
+	box-shadow:
+		0 8px 20px rgb(0 0 0 / 0.1),
+		inset 0 1px 0 rgba(255, 255, 255, 0.9);
+	color: var(--black);
+}
+
+.post-nav-link.next {
+	text-align: right;
+}
+
+.nav-direction {
+	font-size: 0.8rem;
+	font-weight: 700;
+	color: rgb(var(--gray));
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+}
+
+.nav-title {
+	font-size: 0.95rem;
+	font-weight: 600;
+	line-height: 1.4;
+}

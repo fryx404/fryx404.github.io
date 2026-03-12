@@ -1,6 +1,6 @@
 ---
 title: "NFTを発表しました"
-publishDate: 2024-07-01
+pubDate: 2024-07-01
 description: "NFTを発表しました"
 tags: ["写真", "NFT"]
 image: "./images/NFT.webp"

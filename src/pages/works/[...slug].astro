@@ -3,23 +3,38 @@ import { type CollectionEntry, getCollection, render } from "astro:content";
 import WorksPost from "../../layouts/WorksPost.astro";
 
 export async function getStaticPaths() {
-    const works = await getCollection("works");
-    return works.map((work) => {
-        const slug = work.id
-            .replace(/\/index\.(md|mdx)$/, "")
-            .replace(/\.(md|mdx)$/, "");
+    const toSlug = (id: string) =>
+        id.replace(/\/index\.(md|mdx)$/, "").replace(/\.(md|mdx)$/, "");
+    const works = (await getCollection("works")).sort(
+        (a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf(),
+    );
+    return works.map((work, index) => {
+        const slug = toSlug(work.id);
+        const prevEntry = index > 0 ? works[index - 1] : null;
+        const nextEntry = index < works.length - 1 ? works[index + 1] : null;
+        const prev = prevEntry
+            ? { title: prevEntry.data.title, slug: toSlug(prevEntry.id) }
+            : null;
+        const next = nextEntry
+            ? { title: nextEntry.data.title, slug: toSlug(nextEntry.id) }
+            : null;
         return {
             params: { slug },
-            props: work,
+            props: { work, prev, next },
         };
     });
 }
-type Props = CollectionEntry<"works">;
 
-const work = Astro.props;
+type Props = {
+    work: CollectionEntry<"works">;
+    prev: { title: string; slug: string } | null;
+    next: { title: string; slug: string } | null;
+};
+
+const { work, prev, next } = Astro.props;
 const { Content } = await render(work);
 ---
 
-<WorksPost {...work.data}>
+<WorksPost {...work.data} prev={prev} next={next}>
     <Content />
 </WorksPost>
