@@ -1,0 +1,42 @@
+---
+interface Props {
+	url: string;
+}
+
+const { url } = Astro.props;
+
+let embedHtml = '';
+
+try {
+	const apiUrl = `https://publish.twitter.com/oembed?url=${encodeURIComponent(url)}&omit_script=1&dnt=1`;
+	const res = await fetch(apiUrl, {
+		signal: AbortSignal.timeout(5000),
+	});
+	if (res.ok) {
+		const data = await res.json();
+		embedHtml = data.html ?? '';
+	}
+} catch {
+	// フェッチ失敗時はリンクにフォールバック
+}
+---
+
+{embedHtml ? (
+	<div class="tweet-wrapper">
+		<Fragment set:html={embedHtml} />
+	</div>
+	<script async src="https://platform.twitter.com/widgets.js"></script>
+) : (
+	<a href={url} target="_blank" rel="noopener noreferrer">{url}</a>
+)}
+
+<style>
+	.tweet-wrapper {
+		display: flex;
+		justify-content: center;
+		margin: 1.5rem 0;
+	}
+	.tweet-wrapper :global(.twitter-tweet) {
+		margin: 0 auto !important;
+	}
+</style>

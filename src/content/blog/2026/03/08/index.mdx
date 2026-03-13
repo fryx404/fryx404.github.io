@@ -1,0 +1,43 @@
+---
+title: ポートフォリオサイトをAstroで作った話
+pubDate: 2026-03-08
+tags:
+  - Astro
+  - Web
+  - ポートフォリオ
+description: Astroのブログスターターを使って個人サイトを構築した記録です
+---
+
+import LinkCard from '@components/LinkCard.astro';
+import YouTube from '@components/YouTube.astro';
+import Tweet from '@components/Tweet.astro';
+
+
+このサイトをAstroで作りました。
+テンプレートからスタートして、3つのページ（HOME・WORKS・BLOG）を追加しています。
+
+## Astroを選んだ理由
+
+- MDX / Markdown でページを管理できる
+- 必要なときだけJavaScriptを読み込むため軽量
+- React, Vue, Svelte, SolidJSなどを一つのプロジェクト内で混ぜて使える
+- GitHub Pagesで公開したときにGitHub Actionsを使うと自動でビルド・公開される仕組みを作れる
+<br/>
+
+**Youtubeの埋め込みができる！**
+<YouTube url="https://www.youtube.com/watch?v=4k38iTi-_84" />  
+<br/>
+
+**リンクのカードビューができる！**
+<LinkCard url="https://note.com/fryx404/n/n0ff98fb4a3d0" />  
+<br/>
+
+**Amazonリンクも貼れる！**
+<LinkCard url="https://amzn.to/4saizCH" />  
+<br/>
+
+**Xの埋め込みも可能！**
+<Tweet url="https://x.com/fryx404/status/2032084744952046074" />
+<br/>
+
+今後もこのサイトに機能を追加していく予定です。

@@ -8,4 +8,11 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
 	site: 'https://fryx404.github.io',
 	integrations: [mdx(), sitemap()],
+	vite: {
+		resolve: {
+			alias: {
+				'@components': '/src/components',
+			},
+		},
+	},
 });

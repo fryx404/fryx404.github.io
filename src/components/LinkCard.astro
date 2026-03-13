@@ -1,0 +1,127 @@
+---
+interface Props {
+	url: string;
+}
+
+const { url } = Astro.props;
+
+let title = url;
+let description = '';
+let ogImage = '';
+let favicon = '';
+
+try {
+	const hostname = new URL(url).hostname;
+	favicon = `https://www.google.com/s2/favicons?domain=${hostname}&sz=32`;
+
+	const res = await fetch(url, {
+		headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1)' },
+		signal: AbortSignal.timeout(5000),
+	});
+	const html = await res.text();
+
+	// og:title → <title> の順にフォールバック
+	const ogTitle =
+		html.match(/<meta[^>]+property=["']og:title["'][^>]+content=["']([^"']+)["']/i)?.[1] ??
+		html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:title["']/i)?.[1] ??
+		html.match(/<title[^>]*>([^<]+)<\/title>/i)?.[1];
+
+	const ogDesc =
+		html.match(/<meta[^>]+property=["']og:description["'][^>]+content=["']([^"']+)["']/i)?.[1] ??
+		html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:description["']/i)?.[1] ??
+		html.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/i)?.[1];
+
+	const ogImg =
+		html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i)?.[1] ??
+		html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']/i)?.[1];
+
+	if (ogTitle) title = ogTitle.trim();
+	if (ogDesc) description = ogDesc.trim();
+	if (ogImg) ogImage = ogImg.trim();
+} catch {
+	// フェッチ失敗時はURLをそのまま表示
+}
+---
+
+<a href={url} target="_blank" rel="noopener noreferrer" class="link-card">
+	{ogImage && <img src={ogImage} alt="" class="link-card-image" />}
+	<div class="link-card-body">
+		<div class="link-card-title">{title}</div>
+		{description && <div class="link-card-desc">{description}</div>}
+		<div class="link-card-url">
+			{favicon && <img src={favicon} alt="" width="16" height="16" />}
+			<span>{new URL(url).hostname}</span>
+		</div>
+	</div>
+</a>
+
+<style>
+	.link-card {
+		display: flex;
+		align-items: stretch;
+		border: 1px solid rgb(var(--gray-light));
+		border-radius: 8px;
+		overflow: hidden;
+		text-decoration: none;
+		color: inherit;
+		margin: 1.5rem 0;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+		transition: box-shadow 0.2s, transform 0.2s;
+		background: var(--card-bg, #fff);
+	}
+	.link-card:hover {
+		box-shadow: 0 6px 20px rgba(0, 0, 0, 0.14);
+		transform: translateY(-2px);
+	}
+	.link-card-image {
+		width: 180px;
+		min-width: 180px;
+		object-fit: cover;
+		flex-shrink: 0;
+	}
+	.link-card-body {
+		padding: 0.9rem 1.1rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.4rem;
+		min-width: 0;
+	}
+	.link-card-title {
+		font-weight: 700;
+		font-size: 0.95rem;
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+	}
+	.link-card-desc {
+		font-size: 0.8rem;
+		color: rgb(var(--gray));
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+	}
+	.link-card-url {
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+		font-size: 0.75rem;
+		color: rgb(var(--gray));
+		margin-top: auto;
+	}
+	.link-card-url img {
+		display: inline-block;
+	}
+
+	@media (max-width: 480px) {
+		.link-card {
+			flex-direction: column;
+		}
+		.link-card-image {
+			width: 100%;
+			min-width: unset;
+			height: 140px;
+		}
+	}
+</style>
