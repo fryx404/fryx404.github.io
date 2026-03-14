@@ -92,7 +92,11 @@ const cardColors = [
 				padding: 1rem;
 				flex: 1;
 				border-radius: 16px;
-				background-color: color-mix(in srgb, var(--theme-color) 6%, #ffffff);
+				background-color: color-mix(
+					in srgb,
+					var(--theme-color) 6%,
+					#ffffff
+				);
 			}
 			.card-title {
 				margin: 0 0 0.4rem;
@@ -170,19 +174,24 @@ const cardColors = [
 					<>
 						<ul class="works-grid">
 							{posts.map((post, index) => {
-								const themeColor = cardColors[index % cardColors.length];
+								const themeColor =
+									cardColors[index % cardColors.length];
 								return (
 									<li
-										class={`works-card${index >= 30 ? " post-hidden" : ""}`}
+										class={`works-card${index >= 18 ? " post-hidden" : ""}`}
 										style={`--theme-color: ${themeColor};`}
 									>
-										<a href={`/journal/${idToSlug(post.id)}/`}>
+										<a
+											href={`/journal/${idToSlug(post.id)}/`}
+										>
 											<div class="card-body">
 												<h2 class="card-title">
 													{post.data.title}
 												</h2>
 												<p class="card-date">
-													<FormattedDate date={post.data.pubDate} />
+													<FormattedDate
+														date={post.data.pubDate}
+													/>
 												</p>
 											</div>
 										</a>
@@ -190,10 +199,10 @@ const cardColors = [
 								);
 							})}
 						</ul>
-						{posts.length > 30 && (
+						{posts.length > 18 && (
 							<div class="load-more-wrapper">
 								<button id="load-more-btn">
-									もっと見る ({posts.length - 30}件)
+									もっと見る ({posts.length - 18}件)
 								</button>
 							</div>
 						)}
@@ -207,9 +216,10 @@ const cardColors = [
 			if (btn) {
 				btn.addEventListener("click", () => {
 					const hidden = document.querySelectorAll(".post-hidden");
-					const next30 = Array.from(hidden).slice(0, 30);
-					next30.forEach((el) => el.classList.remove("post-hidden"));
-					const remaining = document.querySelectorAll(".post-hidden").length;
+					const next18 = Array.from(hidden).slice(0, 18);
+					next18.forEach((el) => el.classList.remove("post-hidden"));
+					const remaining =
+						document.querySelectorAll(".post-hidden").length;
 					if (remaining === 0) {
 						btn.closest(".load-more-wrapper")?.remove();
 					} else {
