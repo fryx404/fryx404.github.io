@@ -1,4 +1,6 @@
 ---
+import sanitizeHtml from 'sanitize-html';
+
 interface Props {
 	url: string;
 }
@@ -14,7 +16,15 @@ try {
 	});
 	if (res.ok) {
 		const data = await res.json();
-		embedHtml = data.html ?? '';
+		const rawHtml = data.html ?? '';
+
+		embedHtml = sanitizeHtml(rawHtml, {
+			allowedTags: ['blockquote', 'p', 'a', 'br'],
+			allowedAttributes: {
+				'*': ['class'],
+				'a': ['href', 'data-*'],
+			},
+		});
 	}
 } catch {
 	// フェッチ失敗時はリンクにフォールバック
