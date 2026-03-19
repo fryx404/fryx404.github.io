@@ -1,25 +1,21 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
 import BlogPost from "../../layouts/BlogPost.astro";
-
-const toSlug = (id: string) =>
-	id.replace(/\/index\.(md|mdx)$/, "").replace(/\.(md|mdx)$/, "");
+import { idToSlug } from "../../utils/slug";
 
 export async function getStaticPaths() {
-	const toSlug = (id: string) =>
-		id.replace(/\/index\.(md|mdx)$/, "").replace(/\.(md|mdx)$/, "");
 	const posts = (await getCollection("blog")).sort(
 		(a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf(),
 	);
 	return posts.map((post, index) => {
-		const slug = toSlug(post.id);
+		const slug = idToSlug(post.id);
 		const prevEntry = index > 0 ? posts[index - 1] : null;
 		const nextEntry = index < posts.length - 1 ? posts[index + 1] : null;
 		const prev = prevEntry
-			? { title: prevEntry.data.title, slug: toSlug(prevEntry.id) }
+			? { title: prevEntry.data.title, slug: idToSlug(prevEntry.id) }
 			: null;
 		const next = nextEntry
-			? { title: nextEntry.data.title, slug: toSlug(nextEntry.id) }
+			? { title: nextEntry.data.title, slug: idToSlug(nextEntry.id) }
 			: null;
 		return {
 			params: { slug },
