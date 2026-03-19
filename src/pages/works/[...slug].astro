@@ -1,22 +1,21 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
 import WorksPost from "../../layouts/WorksPost.astro";
+import { idToSlug } from "../../utils/slug";
 
 export async function getStaticPaths() {
-    const toSlug = (id: string) =>
-        id.replace(/\/index\.(md|mdx)$/, "").replace(/\.(md|mdx)$/, "");
     const works = (await getCollection("works")).sort(
         (a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf(),
     );
     return works.map((work, index) => {
-        const slug = toSlug(work.id);
+        const slug = idToSlug(work.id);
         const prevEntry = index > 0 ? works[index - 1] : null;
         const nextEntry = index < works.length - 1 ? works[index + 1] : null;
         const prev = prevEntry
-            ? { title: prevEntry.data.title, slug: toSlug(prevEntry.id) }
+            ? { title: prevEntry.data.title, slug: idToSlug(prevEntry.id) }
             : null;
         const next = nextEntry
-            ? { title: nextEntry.data.title, slug: toSlug(nextEntry.id) }
+            ? { title: nextEntry.data.title, slug: idToSlug(nextEntry.id) }
             : null;
         return {
             params: { slug },
