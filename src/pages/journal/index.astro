@@ -246,7 +246,8 @@ const archives = Array.from(archiveCounts.entries()).sort(
 									cardColors[index % cardColors.length];
 								return (
 									<li
-										class={`works-card${index >= 18 ? " post-hidden" : ""}`}
+										class={`works-card${index >= 12 ? " post-hidden" : ""}`}
+										data-index={index}
 										style={`--theme-color: ${themeColor};`}
 									>
 										<a
@@ -267,10 +268,10 @@ const archives = Array.from(archiveCounts.entries()).sort(
 								);
 							})}
 						</ul>
-						{posts.length > 18 && (
+						{posts.length > 6 && (
 							<div class="load-more-wrapper">
 								<button id="load-more-btn">
-									もっと見る ({posts.length - 18}件)
+									もっと見る
 								</button>
 							</div>
 						)}
@@ -299,19 +300,34 @@ const archives = Array.from(archiveCounts.entries()).sort(
 		</main>
 		<Footer />
 		<script>
+			const isMobile = window.innerWidth <= 768;
+			const initialCount = isMobile ? 6 : 12;
+			const loadCount = isMobile ? 6 : 12;
+
+			// モバイル時は7〜12件目も非表示にする
+			if (isMobile) {
+				document.querySelectorAll('.works-card').forEach((card) => {
+					const idx = Number(card.getAttribute('data-index'));
+					if (idx >= 6) card.classList.add('post-hidden');
+				});
+			}
+
 			const btn = document.getElementById("load-more-btn");
 			if (btn) {
-				btn.addEventListener("click", () => {
-					const hidden = document.querySelectorAll(".post-hidden");
-					const next18 = Array.from(hidden).slice(0, 18);
-					next18.forEach((el) => el.classList.remove("post-hidden"));
-					const remaining =
-						document.querySelectorAll(".post-hidden").length;
+				const updateBtnText = () => {
+					const remaining = document.querySelectorAll(".post-hidden").length;
 					if (remaining === 0) {
 						btn.closest(".load-more-wrapper")?.remove();
 					} else {
 						btn.textContent = `もっと見る (${remaining}件)`;
 					}
+				};
+				updateBtnText();
+
+				btn.addEventListener("click", () => {
+					const hidden = document.querySelectorAll(".post-hidden");
+					Array.from(hidden).slice(0, loadCount).forEach((el) => el.classList.remove("post-hidden"));
+					updateBtnText();
 				});
 			}
 		</script>
