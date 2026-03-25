@@ -158,13 +158,14 @@ import HeaderLink from "./HeaderLink.astro";
 			btn.setAttribute('aria-expanded', String(isOpen));
 		});
 
-		// リンクタップで閉じる
-		nav.querySelectorAll('a').forEach((link) => {
-			link.addEventListener('click', () => {
+		// リンクタップで閉じる (イベントデリゲーション)
+		nav.addEventListener('click', (e) => {
+			const link = (e.target as Element).closest('a');
+			if (link && nav.contains(link)) {
 				nav.classList.remove('open');
 				btn.classList.remove('open');
 				btn.setAttribute('aria-expanded', 'false');
-			});
+			}
 		});
 
 		// メニュー外タップで閉じる
