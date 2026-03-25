@@ -1,4 +1,6 @@
 ---
+import { linkMetadataCache, type LinkMetadata } from '../utils/linkCache';
+
 interface Props {
 	url: string;
 	title?: string;
@@ -19,32 +21,48 @@ try {
 
 	// 手動指定がすべて揃っている場合はfetchをスキップ
 	if (!propTitle || (!propDesc && !propImage)) {
-		const res = await fetch(url, {
-			headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1)' },
-			signal: AbortSignal.timeout(5000),
-		});
-		const html = await res.text();
+		let metadataPromise = linkMetadataCache.get(url);
 
-		// og:title → <title> の順にフォールバック
-		const ogTitle =
-			html.match(/<meta[^>]+property=["']og:title["'][^>]+content=["']([^"']+)["']/i)?.[1] ??
-			html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:title["']/i)?.[1] ??
-			html.match(/<title[^>]*>([^<]+)<\/title>/i)?.[1];
+		if (!metadataPromise) {
+			metadataPromise = (async (): Promise<LinkMetadata> => {
+				const res = await fetch(url, {
+					headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1)' },
+					signal: AbortSignal.timeout(5000),
+				});
+				const html = await res.text();
 
-		const ogDesc =
-			html.match(/<meta[^>]+property=["']og:description["'][^>]+content=["']([^"']+)["']/i)?.[1] ??
-			html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:description["']/i)?.[1] ??
-			html.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/i)?.[1];
+				// og:title → <title> の順にフォールバック
+				const ogTitle =
+					html.match(/<meta[^>]+property=["']og:title["'][^>]+content=["']([^"']+)["']/i)?.[1] ??
+					html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:title["']/i)?.[1] ??
+					html.match(/<title[^>]*>([^<]+)<\/title>/i)?.[1];
 
-		const ogImg =
-			html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i)?.[1] ??
-			html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']/i)?.[1];
+				const ogDesc =
+					html.match(/<meta[^>]+property=["']og:description["'][^>]+content=["']([^"']+)["']/i)?.[1] ??
+					html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:description["']/i)?.[1] ??
+					html.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/i)?.[1];
 
-		if (!propTitle && ogTitle) title = ogTitle.trim();
-		if (!propDesc && ogDesc) description = ogDesc.trim();
-		if (!propImage && ogImg) ogImage = ogImg.trim();
+				const ogImg =
+					html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i)?.[1] ??
+					html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']/i)?.[1];
+
+				return {
+					title: ogTitle?.trim(),
+					description: ogDesc?.trim(),
+					image: ogImg?.trim(),
+				};
+			})();
+
+			linkMetadataCache.set(url, metadataPromise);
+		}
+
+		const metadata = await metadataPromise;
+
+		if (!propTitle && metadata.title) title = metadata.title;
+		if (!propDesc && metadata.description) description = metadata.description;
+		if (!propImage && metadata.image) ogImage = metadata.image;
 	}
-} catch {
+} catch (error) {
 	// フェッチ失敗時は手動指定値またはURLをそのまま表示
 }
 ---
