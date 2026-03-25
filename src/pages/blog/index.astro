@@ -304,11 +304,13 @@ const cardColors = [
 
 			const btn = document.getElementById("load-more-btn");
 			if (btn) {
+				const hiddenElements = Array.from(
+					document.querySelectorAll(".post-hidden"),
+				);
 				btn.addEventListener("click", () => {
-					const hidden = document.querySelectorAll(".post-hidden");
-					const next15 = Array.from(hidden).slice(0, 15);
+					const next15 = hiddenElements.splice(0, 15);
 					next15.forEach((el) => el.classList.remove("post-hidden"));
-					const remaining = document.querySelectorAll(".post-hidden").length;
+					const remaining = hiddenElements.length;
 					if (remaining === 0) {
 						btn.closest(".load-more-wrapper")?.remove();
 					} else {

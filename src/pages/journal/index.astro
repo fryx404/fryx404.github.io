@@ -314,8 +314,12 @@ const archives = Array.from(archiveCounts.entries()).sort(
 
 			const btn = document.getElementById("load-more-btn");
 			if (btn) {
+				const hiddenElements = Array.from(
+					document.querySelectorAll(".post-hidden"),
+				);
+
 				const updateBtnText = () => {
-					const remaining = document.querySelectorAll(".post-hidden").length;
+					const remaining = hiddenElements.length;
 					if (remaining === 0) {
 						btn.closest(".load-more-wrapper")?.remove();
 					} else {
@@ -325,8 +329,8 @@ const archives = Array.from(archiveCounts.entries()).sort(
 				updateBtnText();
 
 				btn.addEventListener("click", () => {
-					const hidden = document.querySelectorAll(".post-hidden");
-					Array.from(hidden).slice(0, loadCount).forEach((el) => el.classList.remove("post-hidden"));
+					const next = hiddenElements.splice(0, loadCount);
+					next.forEach((el) => el.classList.remove("post-hidden"));
 					updateBtnText();
 				});
 			}
