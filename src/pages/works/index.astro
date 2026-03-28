@@ -255,6 +255,7 @@ const cardColors = [
                                 <li
                                     class={`works-card${index >= 15 ? " post-hidden" : ""}`}
                                     style={`--theme-color: ${themeColor}; background-color: color-mix(in srgb, ${themeColor} 6%, #ffffff);`}
+                                    data-theme-color={themeColor}
                                 >
                                     <a href={`/works/${idToSlug(work.id)}/`}>
                                         <div class="card-image-wrapper">
@@ -330,16 +331,17 @@ const cardColors = [
             import { TAG_COLORS, applyRandomTagColors } from "../../utils/tagColors";
 
             document.addEventListener("DOMContentLoaded", () => {
+                const excludeMap: Record<string, string[]> = {
+                    "#ff4b4b": ["red", "pink"],
+                    "#22b8cf": ["blue"],
+                    "#845ef7": ["purple"],
+                    "#ff922b": ["orange"],
+                    "#94d82d": ["green"],
+                    "#f06595": ["pink", "red"],
+                };
+
                 document.querySelectorAll<HTMLElement>(".works-card").forEach((card) => {
-                    const themeColorHex = card.style.getPropertyValue("--theme-color").trim();
-                    const excludeMap: Record<string, string[]> = {
-                        "#ff4b4b": ["red", "pink"],
-                        "#22b8cf": ["blue"],
-                        "#845ef7": ["purple"],
-                        "#ff922b": ["orange"],
-                        "#94d82d": ["green"],
-                        "#f06595": ["pink", "red"],
-                    };
+                    const themeColorHex = card.dataset.themeColor || "";
                     const exclude = excludeMap[themeColorHex] ?? [];
                     const available = TAG_COLORS.filter((c) => !exclude.includes(c.name));
                     applyRandomTagColors(".works-tag-item", available);
