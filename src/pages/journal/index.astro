@@ -134,6 +134,11 @@ const archives = Array.from(archiveCounts.entries()).sort(
 			.post-hidden {
 				display: none;
 			}
+			@media (max-width: 768px) {
+				.mobile-hidden {
+					display: none;
+				}
+			}
 			.load-more-wrapper {
 				text-align: center;
 				margin-top: 3rem;
@@ -246,7 +251,7 @@ const archives = Array.from(archiveCounts.entries()).sort(
 									cardColors[index % cardColors.length];
 								return (
 									<li
-										class={`works-card${index >= 12 ? " post-hidden" : ""}`}
+										class={`works-card${index >= 12 ? " post-hidden" : ""}${index >= 6 && index < 12 ? " mobile-hidden" : ""}`}
 										data-index={index}
 										style={`--theme-color: ${themeColor};`}
 									>
@@ -301,22 +306,15 @@ const archives = Array.from(archiveCounts.entries()).sort(
 		<Footer />
 		<script>
 			const isMobile = window.innerWidth <= 768;
-			const initialCount = isMobile ? 6 : 12;
 			const loadCount = isMobile ? 6 : 12;
-
-			// モバイル時は7〜12件目も非表示にする
-			if (isMobile) {
-				document.querySelectorAll('.works-card').forEach((card) => {
-					const idx = Number(card.getAttribute('data-index'));
-					if (idx >= 6) card.classList.add('post-hidden');
-				});
-			}
 
 			const btn = document.getElementById("load-more-btn");
 			if (btn) {
-				const hiddenElements = Array.from(
-					document.querySelectorAll(".post-hidden"),
-				);
+				// Select elements that are hidden.
+				// On mobile: .post-hidden and .mobile-hidden
+				// On desktop: only .post-hidden
+				const selector = isMobile ? ".post-hidden, .mobile-hidden" : ".post-hidden";
+				const hiddenElements = Array.from(document.querySelectorAll(selector));
 
 				const updateBtnText = () => {
 					const remaining = hiddenElements.length;
@@ -330,7 +328,10 @@ const archives = Array.from(archiveCounts.entries()).sort(
 
 				btn.addEventListener("click", () => {
 					const next = hiddenElements.splice(0, loadCount);
-					next.forEach((el) => el.classList.remove("post-hidden"));
+					next.forEach((el) => {
+						el.classList.remove("post-hidden");
+						el.classList.remove("mobile-hidden");
+					});
 					updateBtnText();
 				});
 			}
