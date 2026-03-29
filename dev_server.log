@@ -1,0 +1,20 @@
+
+> my-site@0.0.1 dev
+> astro dev
+
+00:17:31 [types] Generated 1ms
+
+ update  ▶ New version of Astro available: 6.1.1
+  Run npx @astrojs/upgrade to update
+
+00:17:32 [content] Syncing content
+00:17:32 [content] Synced content
+00:17:32 [vite] Re-optimizing dependencies because vite config has changed
+
+ astro  v5.18.0 ready in 1350 ms
+
+┃ Local    http://localhost:4321/
+┃ Network  use --host to expose
+
+00:17:32 watching for file changes...
+00:18:01 [200] /journal/ 233ms
