@@ -22,9 +22,8 @@ const cardColors = [
 
 const archiveCounts = new Map<string, number>();
 posts.forEach((post) => {
-	const date = new Date(post.data.pubDate);
-	const year = date.getFullYear().toString();
-	const month = (date.getMonth() + 1).toString().padStart(2, "0");
+	const year = post.data.pubDate.getFullYear().toString();
+	const month = (post.data.pubDate.getMonth() + 1).toString().padStart(2, "0");
 	const key = `${year}-${month}`;
 	archiveCounts.set(key, (archiveCounts.get(key) || 0) + 1);
 });
