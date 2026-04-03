@@ -47,7 +47,8 @@ try {
 	} else {
 		throw new Error('Tweet fetch failed or returned invalid response');
 	}
-} catch {
+} catch (error) {
+	console.error(`Tweet fetch failed for ${url}:`, error);
 	// フェッチ失敗時はリンクにフォールバック
 }
 ---
