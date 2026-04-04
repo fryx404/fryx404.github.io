@@ -1,5 +1,6 @@
 ---
 import { linkMetadataCache, type LinkMetadata } from "../utils/linkCache";
+import { isSafeUrl } from "../utils/url";
 
 interface Props {
   url: string;
@@ -26,6 +27,11 @@ try {
 
   // 手動指定がすべて揃っている場合はfetchをスキップ
   if (!propTitle || (!propDesc && !propImage)) {
+    if (!isSafeUrl(url)) {
+      console.warn(`[LinkCard] Blocked potentially unsafe URL: ${url}`);
+      throw new Error("Unsafe URL blocked");
+    }
+
     let metadataPromise = linkMetadataCache.get(url);
 
     if (!metadataPromise) {
@@ -34,6 +40,13 @@ try {
           headers: { "User-Agent": "Mozilla/5.0 (compatible; Googlebot/2.1)" },
           signal: AbortSignal.timeout(5000),
         });
+
+        // Content-Length をチェックして大きすぎるレスポンスをブロック (例: 10MB)
+        const contentLength = res.headers.get("content-length");
+        if (contentLength && parseInt(contentLength, 10) > 10 * 1024 * 1024) {
+          throw new Error("Response body is too large");
+        }
+
         const html = await res.text();
 
         const headEndIndex = html.indexOf("</head>");
