@@ -4,6 +4,7 @@
   "exclude": ["dist"],
   "compilerOptions": {
     "strictNullChecks": true,
+    "types": ["bun-types"],
     "paths": {
       "@components/*": ["./src/components/*"]
     }
