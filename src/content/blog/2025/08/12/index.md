@@ -1,7 +1,7 @@
 ---
-title: "【MAYA】ツールを作成しました"
+title: "【MAYA】FT_ConnectAttribute — アトリビュート接続ツール"
 pubDate: 2025-08-12
-description: "【MAYA】ツールを作成しました"
+description: "【MAYA】アトリビュートを接続するツールを作成しました"
 tags: ["Script", "Maya", "Python"]
 image: "./images/sample.png"
 ---

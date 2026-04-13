@@ -1,11 +1,9 @@
 ---
-import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import BaseHead from "../../components/BaseHead.astro";
 import Footer from "../../components/Footer.astro";
-import FormattedDate from "../../components/FormattedDate.astro";
 import Header from "../../components/Header.astro";
-import { idToSlug } from "../../utils/slug";
+import WorksShowcase from "../../components/WorksShowcase.astro";
 
 const works = (await getCollection("works")).sort(
     (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -59,143 +57,8 @@ const cardColors = [
                     inset 0 2px 0 rgba(255, 255, 255, 0.7);
                 transform: rotate(-1.5deg);
             }
-            .works-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-                gap: 2.5rem;
-                list-style: none;
-                padding: 0;
-                margin: 0;
-            }
-            .works-card {
-                position: relative;
-                border-radius: 16px;
-                transition:
-                    box-shadow 0.2s,
-                    transform 0.2s;
-                display: flex;
-                flex-direction: column;
-                /* ホバー時にタグがはみ出る場合は overflow: hidden だと切れてしまうため visible に */
-                overflow: visible;
-            }
-            .works-card:hover {
-                box-shadow: 0 10px 20px -5px rgb(0 0 0 / 0.1);
-                transform: translateY(-3px);
-            }
-            .works-card a {
-                text-decoration: none;
-                color: inherit;
-                display: flex;
-                flex-direction: column;
-                height: 100%;
-                /* カード全体を包むaタグをborder-radiusで丸め、内部を管理するため */
-                border-radius: 16px;
-            }
-            /* 画像コンテナにborder-radiusをつけて上の角を丸める */
-            .card-image-wrapper {
-                position: relative;
-                width: 100%;
-                aspect-ratio: 16 / 9;
-            }
-            .card-image {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                display: block;
-                border-radius: 16px 16px 0 0;
-            }
-            .card-image-placeholder {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: linear-gradient(
-                    135deg,
-                    var(--gray-light),
-                    var(--gray)
-                );
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 2.5rem;
-                border-radius: 16px 16px 0 0;
-            }
-            .card-body {
-                padding: 1.5rem 1.2rem;
-                display: flex;
-                flex-direction: column;
-                flex-grow: 1;
-            }
-            .card-title {
-                margin: 0 0 0.5rem;
-                font-size: 1.1rem;
-                font-weight: 700;
-                color: var(--black, #111827);
-                line-height: 1.4;
-            }
-            .card-date {
-                margin: 0 0 0.5rem;
-                font-size: 0.85rem;
-                color: var(--gray-dark);
-            }
-            .card-tags {
-                position: absolute;
-                top: 0.8rem;
-                left: -0.5rem;
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: flex-start;
-                gap: 0.5rem;
-                list-style: none;
-                padding: 0;
-                margin: 0;
-                z-index: 10;
-            }
-            .works-tag-item {
-                position: relative;
-                color: var(--gray-dark);
-                padding: 0.25rem 0.6rem 0.25rem 1.4rem;
-                display: inline-block;
-                font-size: 0.8rem;
-                font-weight: 700;
-                filter: drop-shadow(0 3px 6px rgb(0 0 0 / 0.15));
-                clip-path: polygon(10px 0, 100% 0, 100% 100%, 10px 100%, 0 50%);
-                transition: transform 0.2s ease;
-                transform: rotate(var(--tag-rotation, 0deg));
-            }
-            .works-tag-item:hover {
-                transform: translateY(-2px) rotate(0deg) scale(1.05);
-                z-index: 11;
-            }
-            .works-tag-item::before {
-                content: "";
-                position: absolute;
-                top: 50%;
-                left: 4px;
-                width: 4px;
-                height: 4px;
-                background-color: rgb(0 0 0 / 0.15);
-                border-radius: 50%;
-                transform: translateY(-50%);
-                box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.2);
-            }
-            @media (max-width: 720px) {
-                .works-grid {
-                    gap: 3rem;
-                }
-            }
-            .empty {
-                color: var(--gray-dark);
-                text-align: center;
-                padding: 4rem 0;
-            }
-            .post-hidden {
-                display: none;
-            }
+
+            /* ===== もっと見るボタン ===== */
             .load-more-wrapper {
                 text-align: center;
                 margin-top: 3rem;
@@ -228,6 +91,12 @@ const cardColors = [
                     0 4px 6px -4px rgb(0 0 0 / 0.1),
                     inset 0 2px 0 rgba(255, 255, 255, 0.8);
             }
+
+            .empty {
+                color: var(--gray-dark);
+                text-align: center;
+                padding: 4rem 0;
+            }
         </style>
     </head>
     <body>
@@ -247,74 +116,13 @@ const cardColors = [
                     <p class="empty">まだ作品がありません。</p>
                 ) : (
                     <>
-                    <ul class="works-grid">
-                        {works.map((work, index) => {
-                            const themeColor =
-                                cardColors[index % cardColors.length];
-                            return (
-                                <li
-                                    class={`works-card${index >= 15 ? " post-hidden" : ""}`}
-                                    style={`--theme-color: ${themeColor}; background-color: color-mix(in srgb, ${themeColor} 6%, #ffffff);`}
-                                    data-theme-color={themeColor}
-                                >
-                                    <a href={`/works/${idToSlug(work.id)}/`}>
-                                        <div class="card-image-wrapper">
-                                            {work.data.image ? (
-                                                work.data.image.format ===
-                                                "gif" ? (
-                                                    <img
-                                                        src={
-                                                            work.data.image.src
-                                                        }
-                                                        alt={work.data.title}
-                                                        class="card-image"
-                                                        style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 16px 16px 0 0;"
-                                                    />
-                                                ) : (
-                                                    <Image
-                                                        class="card-image"
-                                                        src={work.data.image}
-                                                        alt={work.data.title}
-                                                        width={560}
-                                                    />
-                                                )
-                                            ) : (
-                                                <div class="card-image-placeholder">
-                                                    🎨
-                                                </div>
-                                            )}
-                                            {work.data.tags &&
-                                                work.data.tags.length > 0 && (
-                                                    <ul class="card-tags">
-                                                        {work.data.tags
-                                                            .slice(0, 1)
-                                                            .map(
-                                                                (
-                                                                    tag: string,
-                                                                ) => (
-                                                                    <li class="works-tag-item">
-                                                                        {tag}
-                                                                    </li>
-                                                                ),
-                                                            )}
-                                                    </ul>
-                                                )}
-                                        </div>
-                                        <div class="card-body">
-                                            <h2 class="card-title">
-                                                {work.data.title}
-                                            </h2>
-                                            <p class="card-date">
-                                                <FormattedDate
-                                                    date={work.data.pubDate}
-                                                />
-                                            </p>
-                                        </div>
-                                    </a>
-                                </li>
-                            );
-                        })}
-                    </ul>
+                    {works.map((work, index) => {
+                        const themeColor =
+                            cardColors[index % cardColors.length];
+                        return (
+                            <WorksShowcase work={work} index={index} themeColor={themeColor} />
+                        );
+                    })}
                     {works.length > 15 && (
                         <div class="load-more-wrapper">
                             <button id="load-more-btn">
@@ -331,6 +139,7 @@ const cardColors = [
             import { TAG_COLORS, applyRandomTagColors } from "../../utils/tagColors";
 
             document.addEventListener("DOMContentLoaded", () => {
+                // --- タグカラー適用 ---
                 const excludeMap: Record<string, string[]> = {
                     "#ff4b4b": ["red", "pink"],
                     "#22b8cf": ["blue"],
@@ -340,30 +149,52 @@ const cardColors = [
                     "#f06595": ["pink", "red"],
                 };
 
-                document.querySelectorAll<HTMLElement>(".works-card").forEach((card) => {
-                    const themeColorHex = card.dataset.themeColor || "";
+                document.querySelectorAll<HTMLElement>(".showcase-section").forEach((section) => {
+                    const themeColorHex = section.dataset.themeColor || "";
                     const exclude = excludeMap[themeColorHex] ?? [];
                     const available = TAG_COLORS.filter((c) => !exclude.includes(c.name));
-                    applyRandomTagColors(".works-tag-item", available);
+                    applyRandomTagColors(".showcase-tag-item", available, section);
                 });
-            });
 
-            const btn = document.getElementById("load-more-btn");
-            if (btn) {
-                const hiddenElements = Array.from(
-                    document.querySelectorAll(".post-hidden"),
+                // --- Intersection Observer: スクロールフェードイン ---
+                const observer = new IntersectionObserver(
+                    (entries) => {
+                        entries.forEach((entry) => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add("is-visible");
+                                observer.unobserve(entry.target);
+                            }
+                        });
+                    },
+                    { threshold: 0.1, rootMargin: "0px 0px -50px 0px" },
                 );
-                btn.addEventListener("click", () => {
-                    const next15 = hiddenElements.splice(0, 15);
-                    next15.forEach((el) => el.classList.remove("post-hidden"));
-                    const remaining = hiddenElements.length;
-                    if (remaining === 0) {
-                        btn.closest(".load-more-wrapper")?.remove();
-                    } else {
-                        btn.textContent = `もっと見る (${remaining}件)`;
-                    }
+
+                document.querySelectorAll(".showcase-section").forEach((section) => {
+                    observer.observe(section);
                 });
-            }
+
+                // --- もっと見る ---
+                const btn = document.getElementById("load-more-btn");
+                if (btn) {
+                    const hiddenElements = Array.from(
+                        document.querySelectorAll(".post-hidden"),
+                    );
+                    btn.addEventListener("click", () => {
+                        const next15 = hiddenElements.splice(0, 15);
+                        next15.forEach((el) => {
+                            el.classList.remove("post-hidden");
+                            // 新しく表示されたセクションもobserveする
+                            observer.observe(el);
+                        });
+                        const remaining = hiddenElements.length;
+                        if (remaining === 0) {
+                            btn.closest(".load-more-wrapper")?.remove();
+                        } else {
+                            btn.textContent = `もっと見る (${remaining}件)`;
+                        }
+                    });
+                }
+            });
         </script>
     </body>
 </html>

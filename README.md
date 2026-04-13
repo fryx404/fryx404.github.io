@@ -1,4 +1,4 @@
-﻿# 古屋 匠 — 個人サイト
+# 古屋 匠 — 個人サイト
 
 Astroフレームワークを用いたの個人サイトです。
 バイブコーディングで作成しています。
@@ -14,13 +14,12 @@ src/
 │   └── works/           # WORKS コンテンツ (Markdown)
 ├── layouts/
 │   ├── BlogPost.astro   # BLOG 用レイアウト
-│   ├── JournalPost.astro # JOURNAL 用レイアウト
-│   └── WorksPost.astro    # WORKS 用レイアウト
+│   └── JournalPost.astro # JOURNAL 用レイアウト
 ├── pages/
 │   ├── index.astro       # トップページ
 │   ├── blog/            # BLOG 一覧・詳細ページ
 │   ├── journal/         # JOURNAL 一覧・詳細ページ
-│   └── works/           # WORKS 一覧・詳細ページ
+│   └── works/           # WORKS 一覧ページ
 ├── styles/
 │   ├── global.css        # サイト全体のスタイル
 │   └── post.css          # 投稿ページ共通スタイル

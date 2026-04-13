@@ -10,6 +10,7 @@ const works = defineCollection({
 		description: z.string().optional(),
 		tags: z.array(z.string()).optional(),
 		url: z.string().optional(), // 外部リンク（任意）
+		features: z.array(z.string()).optional(), // ショーケース用の特徴リスト
 	}),
 });
 

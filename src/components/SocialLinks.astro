@@ -1,0 +1,155 @@
+---
+import SocialIcon from "./SocialIcon.astro";
+---
+<div class="connect-section">
+  <div class="section-title-tag">SNS</div>
+  <div class="social-links-row">
+    <!-- note -->
+    <a
+      href="https://note.com/fryx404"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="note"
+    >
+      <SocialIcon name="note" />
+    </a>
+    <!-- X -->
+    <a
+      href="https://x.com/fryx404"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="X (Twitter)"
+    >
+      <SocialIcon name="x" />
+    </a>
+
+    <!-- LinkedIn -->
+    <a
+      href="https://www.linkedin.com/in/fryx404/"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="LinkedIn"
+    >
+      <SocialIcon name="linkedin" />
+    </a>
+    <!-- GitHub -->
+    <a
+      href="https://github.com/fryx404"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="GitHub"
+    >
+      <SocialIcon name="github" />
+    </a>
+    <!-- Behance -->
+    <a
+      href="https://www.behance.net/fryx404/"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Behance"
+    >
+      <SocialIcon name="behance" />
+    </a>
+    <!-- ArtStation -->
+    <a
+      href="https://www.artstation.com/fryx404"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="ArtStation"
+    >
+      <SocialIcon name="artstation" />
+    </a>
+    <!-- Contact -->
+    <a
+      href="https://fryx404.notion.site/13259fe4f8ee80f0826ed878a6fa6a42"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Contact"
+    >
+      <SocialIcon name="mail" />
+    </a>
+  </div>
+</div>
+
+<style>
+  /* --- ソーシャルリンクエリア --- */
+  .connect-section {
+    max-width: 720px;
+    margin: 4rem auto 6rem;
+    padding: 0 1em;
+    text-align: center;
+  }
+  .connect-section .section-title-tag {
+    --tag-bg: #4c6ef5; /* ブルー/インディゴ */
+    transform: rotate(-1.5deg);
+  }
+  .social-links-row {
+    display: flex;
+    gap: 1.2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .social-links-row svg {
+    width: 28px;
+    height: 28px;
+  }
+  .social-links-row a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    background: var(--gray-light);
+    color: var(--gray-dark);
+    border-radius: 16px;
+    border: 1px solid var(--gray);
+    box-shadow:
+      0 4px 6px -1px rgb(0 0 0 / 0.05),
+      0 2px 4px -2px rgb(0 0 0 / 0.05);
+    transition: all 0.2s ease;
+    text-decoration: none;
+  }
+  /* ソーシャルアイコンの大げさなホバーアニメーション */
+  .social-links-row a:hover {
+    box-shadow:
+      0 20px 25px -5px rgb(0 0 0 / 0.15),
+      0 8px 10px -6px rgb(0 0 0 / 0.1);
+    color: #ffffff;
+  }
+  /* アイコンごとにタグと同じようにカラフルなホバー色と、少し傾くアニメーションを設定 */
+  .social-links-row a:nth-child(1):hover {
+    background-color: #ff4b4b;
+    border-color: #ff4b4b;
+    transform: translateY(-6px) scale(1.15) rotate(-6deg);
+  }
+  .social-links-row a:nth-child(2):hover {
+    background-color: #22b8cf;
+    border-color: #22b8cf;
+    transform: translateY(-6px) scale(1.15) rotate(6deg);
+  }
+  .social-links-row a:nth-child(3):hover {
+    background-color: #845ef7;
+    border-color: #845ef7;
+    transform: translateY(-6px) scale(1.15) rotate(-4deg);
+  }
+  .social-links-row a:nth-child(4):hover {
+    background-color: #ff922b;
+    border-color: #ff922b;
+    transform: translateY(-6px) scale(1.15) rotate(5deg);
+  }
+  .social-links-row a:nth-child(5):hover {
+    background-color: #94d82d;
+    border-color: #94d82d;
+    transform: translateY(-6px) scale(1.15) rotate(-5deg);
+  }
+  .social-links-row a:nth-child(6):hover {
+    background-color: #f06595;
+    border-color: #f06595;
+    transform: translateY(-6px) scale(1.15) rotate(4deg);
+  }
+  .social-links-row a:nth-child(7):hover {
+    background-color: #4c6ef5;
+    border-color: #4c6ef5;
+    transform: translateY(-6px) scale(1.15) rotate(-6deg);
+  }
+</style>

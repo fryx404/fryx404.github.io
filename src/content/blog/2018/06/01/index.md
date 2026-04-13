@@ -10,7 +10,7 @@ image: "./images/11dpi.webp"
 
 **Street Photo Exhibition - 11dpi展 -**
 
-アート作品展示七十一回目は</br>
+アート作品展示会 第一回目は</br>
 11名のフォトグラファーによる</br>
 ストリート写真オンリーのグループ写真展です。
 

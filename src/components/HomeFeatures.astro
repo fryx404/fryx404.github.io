@@ -1,0 +1,186 @@
+---
+---
+<div class="features-section">
+  <div class="features-wrapper">
+    <div class="section-title-tag">できること</div>
+    <div class="feature-cards-wrap">
+      <div class="feature-card">
+        <h3 class="feature-title">CGが作れる</h3>
+        <p>
+          MayaやBlender等を用いて、モデリングからテクスチャリング、ライティングまで一貫したCG制作を行うことができます。
+        </p>
+        <div class="feature-tags">
+          <span class="feature-tag">Maya</span>
+          <span class="feature-tag">Blender</span>
+          <span class="feature-tag">Unreal Engine</span>
+          <span class="feature-tag">AfterEffects</span>
+          <span class="feature-tag">Photoshop</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <h3 class="feature-title">リグが組める</h3>
+        <p>
+          キャラクターやプロップに対し、アニメーターが直感的で動かしやすいよう、骨組みやコントローラーを設定する高度なセットアップが可能です。
+        </p>
+        <div class="feature-tags">
+          <span class="feature-tag">Maya</span>
+          <span class="feature-tag">Unreal Engine</span>
+          <span class="feature-tag">MEL</span>
+          <span class="feature-tag">Python</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <h3 class="feature-title">ツールが作れる</h3>
+        <p>
+          PythonやJavaScript等を用いて、DCCツールのプラグイン開発や、業務効率化のためのスクリプト・ツールを構築できます。
+        </p>
+        <div class="feature-tags">
+          <span class="feature-tag">Python</span>
+          <span class="feature-tag">JavaScript</span>
+          <span class="feature-tag">TypeScript</span>
+          <span class="feature-tag">HTML CSS</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* --- できることセクション --- */
+  .features-section {
+    width: 100%;
+    padding: 0 0 2rem;
+  }
+  .features-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+  }
+  .features-section .section-title-tag {
+    --tag-bg: #ffca28; /* イエロー */
+    transform: rotate(-3deg);
+  }
+  .feature-cards-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem; /* カードとカードの間隔 */
+    margin-bottom: -2rem;
+  }
+  .feature-card {
+    position: relative;
+    border-radius: 16px;
+    padding: 2.5rem 3rem;
+    transition: transform 0.2s ease;
+  }
+  .feature-card:hover {
+    transform: translateY(-2px);
+  }
+  .feature-card:nth-of-type(1) {
+    background-color: color-mix(in srgb, var(--accent) 6%, #ffffff);
+  }
+  .feature-card:nth-of-type(2) {
+    background-color: color-mix(in srgb, var(--accent-dark) 6%, #ffffff);
+  }
+  .feature-card:nth-of-type(3) {
+    background-color: color-mix(in srgb, #ff9d00 6%, #ffffff);
+  }
+
+  /* --- 見出しのしおり・リボン装飾 --- */
+  .feature-title {
+    position: relative;
+    display: flex;
+    align-items: center;
+    color: var(--black);
+    font-size: 1.4rem;
+    margin: 0 0 1rem 0;
+    /* 左側に装飾用のスペースを空ける */
+    padding-left: 2rem;
+  }
+  /* 各見出しに共通の「しおり・リボン（下に切り込み）」型擬似要素 */
+  .feature-title::before {
+    content: "";
+    position: absolute;
+    left: 4px; /* 横位置微調整 */
+    top: -0.2em; /* 文字より少し上に突き出させる */
+    width: 14px;
+    height: 1.4em;
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% 100%,
+      50% calc(100% - 4px),
+      0 100%
+    );
+  }
+
+  /* 各カードの色に合わせてしおりの色を変更 */
+  .feature-card:nth-of-type(1) .feature-title::before {
+    background-color: var(--accent);
+  }
+  .feature-card:nth-of-type(2) .feature-title::before {
+    background-color: var(--accent-dark);
+  }
+  .feature-card:nth-of-type(3) .feature-title::before {
+    background-color: #ff9d00;
+  }
+
+  .feature-card p {
+    color: var(--gray-dark);
+    font-size: 1rem;
+    line-height: 1.8;
+    margin: 0;
+    /* 見出しの装飾（padding-left: 2rem）に開始位置を合わせる */
+    padding-left: 2rem;
+  }
+  .feature-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    margin-right: -3.5rem; /* カードのpadding 3rem + はみ出し 0.5rem */
+    margin-bottom: -3.3rem; /* カードのpadding 2.5rem + はみ出し 0.8rem */
+    z-index: 10;
+  }
+  .feature-tag {
+    position: relative;
+    color: var(--gray-dark);
+    padding: 0.35rem 0.8rem 0.35rem 1.6rem;
+    border-radius: 0 4px 4px 0;
+    font-size: 1rem;
+    font-weight: 700;
+    filter: drop-shadow(0 3px 6px rgb(0 0 0 / 0.15));
+    clip-path: polygon(12px 0, 100% 0, 100% 100%, 12px 100%, 0 50%);
+    transition: transform 0.2s ease;
+    /* JS側でランダムな角度が設定されるための変数。初期値は0度 */
+    transform: rotate(var(--tag-rotation, 0deg));
+  }
+
+  .feature-tag:hover {
+    transform: translateY(-2px) rotate(0deg) scale(1.05);
+    z-index: 11;
+  }
+  .feature-tag::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 6px;
+    width: 5px;
+    height: 5px;
+    background-color: rgb(0 0 0 / 0.15);
+    border-radius: 50%;
+    transform: translateY(-50%);
+    box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.2);
+  }
+  @media (max-width: 720px) {
+    .feature-card {
+      padding: 1.8rem 1.5rem 2.5rem; /* モバイル向けに下部の余白を確保 */
+    }
+    .feature-tags {
+      margin-right: -2rem; /* モバイルpadding 1.5rem + はみ出し 0.5rem */
+      margin-bottom: -3.3rem;
+    }
+  }
+</style>
