@@ -1,33 +1,19 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
 import JournalPost from "../../layouts/JournalPost.astro";
-import { idToSlug } from "../../utils/slug";
+import { getPrevNextEntries } from "../../utils/entries";
 
 export async function getStaticPaths() {
-	const posts = (await getCollection("journal")).sort(
-		(a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf(),
-	);
-	return posts.map((post, index) => {
-		const slug = idToSlug(post.id);
-		const prevEntry = index > 0 ? posts[index - 1] : null;
-		const nextEntry = index < posts.length - 1 ? posts[index + 1] : null;
-		const prev = prevEntry
-			? { title: prevEntry.data.title, slug: idToSlug(prevEntry.id) }
-			: null;
-		const next = nextEntry
-			? { title: nextEntry.data.title, slug: idToSlug(nextEntry.id) }
-			: null;
-		return {
-			params: { slug },
-			props: { post, prev, next },
-		};
-	});
+  const posts = (await getCollection("journal")).sort(
+    (a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf(),
+  );
+  return getPrevNextEntries(posts);
 }
 
 type Props = {
-	post: CollectionEntry<"journal">;
-	prev: { title: string; slug: string } | null;
-	next: { title: string; slug: string } | null;
+  post: CollectionEntry<"journal">;
+  prev: { title: string; slug: string } | null;
+  next: { title: string; slug: string } | null;
 };
 
 const { post, prev, next } = Astro.props;
@@ -35,5 +21,5 @@ const { Content } = await render(post);
 ---
 
 <JournalPost {...post.data} prev={prev} next={next}>
-	<Content />
+  <Content />
 </JournalPost>
