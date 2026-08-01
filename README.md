@@ -10,15 +10,12 @@ src/
 ├── components/           # 共有コンポーネント (Header, Footer など)
 ├── content/
 │   ├── blog/            # BLOG コンテンツ (Markdown)
-│   ├── journal/         # JOURNAL コンテンツ (Markdown)
 │   └── works/           # WORKS コンテンツ (Markdown)
 ├── layouts/
-│   ├── BlogPost.astro   # BLOG 用レイアウト
-│   └── JournalPost.astro # JOURNAL 用レイアウト
+│   └── BlogPost.astro   # BLOG 用レイアウト
 ├── pages/
 │   ├── index.astro       # トップページ
 │   ├── blog/            # BLOG 一覧・詳細ページ
-│   ├── journal/         # JOURNAL 一覧・詳細ページ
 │   └── works/           # WORKS 一覧ページ
 ├── styles/
 │   ├── global.css        # サイト全体のスタイル
