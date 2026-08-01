@@ -25,15 +25,4 @@ const blog = defineCollection({
 	}),
 });
 
-const journal = defineCollection({
-	schema: ({ image }) => z.object({
-		title: z.string(),
-		pubDate: z.coerce.date(),
-		updatedDate: z.coerce.date().optional(),
-		tags: z.array(z.string()).optional(),
-		description: z.string().optional(),
-		image: image().optional(),
-	}),
-});
-
-export const collections = { works, blog, journal };
+export const collections = { works, blog };
